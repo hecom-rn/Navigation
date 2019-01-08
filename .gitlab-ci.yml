@@ -12,7 +12,7 @@ publish:
   only:
     - tags
   script:
-    - npm install @babel/cli @babel/core @babel/preset-env @babel/preset-react @babel/plugin-proposal-class-properties
+    - npm install --no-save @babel/cli @babel/core @babel/preset-env @babel/preset-react @babel/plugin-proposal-class-properties
     - ./node_modules/.bin/babel src -d dist --minified
     - echo -n '//registry.npmjs.org/:_authToken=' > ~/.npmrc
     - echo $NPM_TOKEN >> ~/.npmrc
