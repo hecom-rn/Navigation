@@ -1,0 +1,16 @@
+{
+  "name": "@hecom/navigation",
+  "version": "0.0.1",
+  "description": "Navigation API",
+  "main": "dist/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:hecom/navigation.git"
+  },
+  "author": "Xiaosong Gao",
+  "license": "MIT",
+  "peerDependencies": {
+    "@hecom/foundation": "*"
+  }
+}
