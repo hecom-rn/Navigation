@@ -15,6 +15,7 @@ publish:
     - npm install -g uglify-es
     - mkdir -p dist
     - uglifyjs -c -m --ecma 5 src/index.js -o dist/index.js
+    - uglifyjs -c -m --ecma 5 src/BasicWrapper.js -o dist/BasicWrapper.js
     - echo -n '//registry.npmjs.org/:_authToken=' > ~/.npmrc
     - echo $NPM_TOKEN >> ~/.npmrc
     - npm publish --access public
