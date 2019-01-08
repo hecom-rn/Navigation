@@ -3,7 +3,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 export default (WrappedComponent) => {
     return class extends React.PureComponent {
-        apiRefresh = (_isApiLoading, _apiLoadingStyle) => {
+        _apiRefresh = (_isApiLoading, _apiLoadingStyle) => {
             this.props.navigation.setParams({_isApiLoading, _apiLoadingStyle});
         };
 
@@ -17,7 +17,7 @@ export default (WrappedComponent) => {
                     <WrappedComponent
                         {...params}
                         navigation={this.props.navigation}
-                        apiRefresh={this.apiRefresh}
+                        apiRefresh={this._apiRefresh}
                     />
                     {_isApiLoading && this._renderLoadingView(_apiLoadingStyle)}
                 </View>
