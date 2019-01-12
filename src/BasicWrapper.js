@@ -1,19 +1,22 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import Foundation from '@hecom/foundation';
 
 export default (WrappedComponent) => {
     return class extends React.PureComponent {
+        static navigationOptions = WrappedComponent.navigationOptions || {header: null};
+
         _apiRefresh = (_isApiLoading, _apiLoadingStyle) => {
             this.props.navigation.setParams({_isApiLoading, _apiLoadingStyle});
         };
 
         render() {
-            const params = {...this.props.navigation.state.params};
+            const params = this.props.navigation.state.params || {};
             const {_isApiLoading, _apiLoadingStyle} = params;
             delete params._isApiLoading;
             delete params._apiLoadingStyle;
             return (
-                <View style={styles.view}>
+                <View style={[styles.view, Foundation.Style.ViewBackground]}>
                     <WrappedComponent
                         {...params}
                         navigation={this.props.navigation}
