@@ -1,5 +1,4 @@
 import Foundation from '@hecom/foundation';
-import BasicWrapper from './BasicWrapper';
 
 let navicontrol = null;
 
@@ -13,7 +12,6 @@ export default {
     popByDelta: _popByDelta,
     reset: _reset,
     refresh: _refresh,
-    withBasicWrapper: BasicWrapper,
 };
 
 function _push(routeName, param = {}) {
