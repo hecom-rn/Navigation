@@ -4,25 +4,13 @@
 
 这是导航模块，使用`react-navigation`作为导航器，这里集成了一些API供用户使用。
 
-## 安装
-
-```shell
-npm install --save @hecom/navigation
-```
-
-## 使用方法
-
-```javascript
-import Navigation from '@hecom/navigation';
-```
-
-## 封装接口
+**封装接口**：
 
 `withBasicWrapper`对页面级组件进行封装，这是一个高阶组件，主要是对于传入的`props`进行处理，增加刷新状态，同时内部参数会被提取到外部。
 
 封装后的组件，参数直接在`props`中，而不是在`props.navigation.state.params`中。同时多了一个接口，`apiRefresh: (isLoading, loadingStyle) => void`，可以通过`this.apiRefresh`调用，重置当前页面的刷新图标显示与否。
 
-## 导航接口
+**导航接口**：
 
 * `set: (navigation) => void`：设置导航器对象。
 * `get: () => object`：获取导航器对象。
