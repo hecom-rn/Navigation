@@ -6,6 +6,7 @@ export default {
     set: (navigation) => navicontrol = navigation,
     get: () => navicontrol,
     push: _push,
+    navigate: _navigate,
     pop: _pop,
     popByKey: _popByKey,
     popByRoute: _popByRoute,
@@ -19,6 +20,13 @@ function _push(routeName, param = {}) {
         routeName: routeName,
         params: param,
         key: routeName + Foundation.StringUtil.guid(),
+    });
+}
+
+function _navigate(routeName, param = {}) {
+    navicontrol.navigate({
+        routeName: routeName,
+        params: param,
     });
 }
 
