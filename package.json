@@ -2,13 +2,15 @@
   "name": "@hecom/navigation",
   "version": "1.0.3",
   "description": "Navigation API",
-  "main": "dist/index.js",
-  "scripts": {},
+  "main": "src/index.js",
+  "scripts": {
+    "patch": "npm version patch -m 'Bump version %s';git push origin master --tags"
+  },
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:hecom/navigation.git"
   },
-  "author": "Xiaosong Gao",
+  "author": "Hecom",
   "license": "MIT",
   "peerDependencies": {
     "@hecom/foundation": "*"

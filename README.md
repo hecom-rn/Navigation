@@ -1,6 +1,7 @@
 # Navigation
 
 [![npm version](https://img.shields.io/npm/v/@hecom/navigation.svg?style=flat)](https://www.npmjs.com/package/@hecom/navigation)
+[![Build Status](https://travis-ci.org/hecom-rn/navigation.svg?branch=master)](https://travis-ci.org/hecom-rn/navigation)
 
 这是导航模块，使用`react-navigation`作为导航器，这里集成了一些API供用户使用。
 
