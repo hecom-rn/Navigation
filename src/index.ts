@@ -1,6 +1,15 @@
 import Foundation from '@hecom/foundation';
 
+
+interface Listener {
+    onNavigate(routeName: string, param: object): void
+
+    onPop(popKey: string): void
+}
+
 let navicontrol = null;
+
+let _listener: Listener;
 
 export default {
     set: (navigation) => navicontrol = navigation,
@@ -13,56 +22,73 @@ export default {
     popByDelta: _popByDelta,
     reset: _reset,
     refresh: _refresh,
+    setListener: (listener: Listener) => _listener = listener,
 };
 
-function _push(routeName, param = {}) {
+function _push(routeName: string, param: object = {}): void {
     navicontrol.navigate({
         routeName: routeName,
         params: param,
         key: routeName + Foundation.StringUtil.guid(),
     });
+    if (_listener && _listener.onNavigate) {
+        _listener.onNavigate(routeName, param);
+    }
 }
 
-function _navigate(routeName, param = {}) {
+function _navigate(routeName: string, param: object = {}): void {
     navicontrol.navigate({
         routeName: routeName,
         params: param,
     });
+    if (_listener && _listener.onNavigate) {
+        _listener.onNavigate(routeName, param);
+    }
 }
 
-function _pop() {
+function _pop(): void {
     const {index, routes} = navicontrol.state;
-    navicontrol.goBack(routes[index].key);
+    _popByParam(routes[index].key)
 }
 
-function _popByKey(key) {
+function _popByKey(key: string): void {
     const index = _indexFromKey(key);
     const fromKey = _keyFromIndex(1, index);
-    navicontrol.goBack(fromKey);
+    _popByParam(fromKey);
 }
 
-function _popByRoute(routeName) {
+function _popByRoute(routeName: string): void {
     const key = _keyFromRouteName(routeName);
     _popByKey(key);
 }
 
-function _popByDelta(delta) {
+function _popByDelta(delta: number): void {
     const fromKey = _keyFromIndex(delta + 1);
-    navicontrol.goBack(fromKey);
+    _popByParam(fromKey);
 }
 
-function _reset(routeName, param = {}) {
+function _popByParam(key: string) {
+    navicontrol.goBack(key);
+    if (_listener && _listener.onPop) {
+        _listener.onPop(key);
+    }
+}
+
+function _reset(routeName: string, param: object = {}) {
     navicontrol.navigate(routeName, param);
+    if (_listener && _listener.onNavigate) {
+        _listener.onNavigate(routeName, param);
+    }
 }
 
-function _refresh(_isApiLoading, _apiLoadingStyle) {
+function _refresh(_isApiLoading: boolean, _apiLoadingStyle: object) {
     navicontrol.setParams({_isApiLoading, _apiLoadingStyle});
 }
 
 global.push = _push;
 global.refresh = _refresh;
 
-function _keyFromIndex(delta, startIndex) {
+function _keyFromIndex(delta: number, startIndex?: number) {
     const {index, routes} = navicontrol.state;
     startIndex = startIndex === undefined ? index : startIndex;
     if (startIndex + delta < 0) {
@@ -71,7 +97,7 @@ function _keyFromIndex(delta, startIndex) {
     return routes[startIndex + delta].key;
 }
 
-function _keyFromRouteName(name) {
+function _keyFromRouteName(name: string) {
     const {routes} = navicontrol.state;
     const result = routes.filter(item => item.routeName === name);
     if (result.length > 0) {
@@ -79,7 +105,7 @@ function _keyFromRouteName(name) {
     }
 }
 
-function _indexFromKey(key) {
+function _indexFromKey(key: string) {
     const {routes} = navicontrol.state;
     if (key) {
         let result = -1;
