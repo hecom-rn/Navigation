@@ -8,11 +8,13 @@ interface Listener {
 }
 
 let navicontrol = null;
+let refreshNavicontrol = null;
 
 let _listener: Listener;
 
 export default {
     set: (navigation) => navicontrol = navigation,
+    setRefreshNav: (navigation) => refreshNavicontrol = navigation,
     get: () => navicontrol,
     push: _push,
     navigate: _navigate,
@@ -82,7 +84,8 @@ function _reset(routeName: string, param: object = {}) {
 }
 
 function _refresh(_isApiLoading: boolean, _apiLoadingStyle: object) {
-    navicontrol.setParams({_isApiLoading, _apiLoadingStyle});
+    const nav = refreshNavicontrol ? refreshNavicontrol : navicontrol;
+    nav.setParams({_isApiLoading, _apiLoadingStyle});
 }
 
 global.push = _push;
