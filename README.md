@@ -7,7 +7,7 @@
 
 **接口**：
 
-* `set: (navigation) => void`：设置导航器对象。
+* `setSwitchNav: (switchFunc) => void`：设置切换导航器方法。
 * `get: () => object`：获取导航器对象。
 * `push: (routeName, param) => void`：推入页面。
 * `pop: () => void`：回退到上一页。
