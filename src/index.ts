@@ -72,6 +72,7 @@ function _popByParam(key: string) {
 }
 
 function _switchNav(navType: string) {
+    navicontrol().resetRoot()
     _setSwitchNav(navType);
 }
 
