@@ -30,7 +30,11 @@ export default {
 };
 
 function _push(routeName: string, param: object = {}): void {
-    navicontrol().navigate(routeName, param, routeName + Foundation.StringUtil.guid());
+    navicontrol().navigate({
+        name: routeName,
+        params: param,
+        key: routeName + Foundation.StringUtil.guid()
+    });
     if (_listener && _listener.onNavigate) {
         _listener.onNavigate(routeName, param);
     }
