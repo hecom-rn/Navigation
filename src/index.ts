@@ -29,12 +29,24 @@ export default {
     setListener: (listener: Listener) => _listener = listener,
 };
 
+let lastRoute = '';
 function _push(routeName: string, param: object = {}): void {
+    const routeStr = routeName + JSON.stringify(param) + '';
+    if (lastRoute === routeStr) {
+        const {routes} = navicontrol().getRootState();
+        if (routes.length > 0 && routes[routes.length - 1].name === routeName) {
+            return;
+        }
+    }
+    lastRoute = routeStr;
     navicontrol().navigate({
         name: routeName,
         params: param,
         key: routeName + Foundation.StringUtil.guid()
     });
+    setTimeout(() => {
+        lastRoute = '';
+    }, 2000);
     if (_listener && _listener.onNavigate) {
         _listener.onNavigate(routeName, param);
     }
