@@ -66,7 +66,7 @@ function _pop(): void {
 
 function _popByKey(key: string): void {
     const index = _indexFromKey(key);
-    const fromKey = _keyFromIndex(1, index);
+    const fromKey = _keyFromIndex(0, index);
     _popByParam(fromKey);
 }
 
@@ -110,10 +110,14 @@ function _keyFromIndex(delta: number, startIndex?: number) {
 
 function _keyFromRouteName(name: string) {
     const {routes} = navicontrol().getRootState();
-    const result = routes.filter(item => item.routeName === name);
+    const result = routes.filter(item => item.name === name);
     if (result.length > 0) {
         return result[result.length - 1].key;
-    }
+    } else if (routes.length > 1) {
+        return routes[routes.length - 2].key;
+    } else if (routes.length > 0) {
+        return routes[0].key;
+    } 
 }
 
 function _indexFromKey(key: string) {
