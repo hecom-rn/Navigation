@@ -91,7 +91,7 @@ function _switchNav(navType: string) {
     _setSwitchNav(navType);
 }
 
-function _refresh(_isApiLoading: boolean, _apiLoadingStyle: object) {
+function _refresh(_isApiLoading: boolean, _apiLoadingStyle?: object) {
     const nav = navicontrol();
     nav.setParams({_isApiLoading, _apiLoadingStyle});
 }
@@ -117,7 +117,7 @@ function _keyFromRouteName(name: string) {
         return routes[routes.length - 2].key;
     } else if (routes.length > 0) {
         return routes[0].key;
-    } 
+    }
 }
 
 function _indexFromKey(key: string) {
