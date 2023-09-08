@@ -21,7 +21,6 @@ export default {
     push: _push,
     navigate: _navigate,
     pop: _pop,
-    popByKey: _popByKey,
     popByRoute: _popByRoute,
     popByDelta: _popByDelta,
     switchNav: _switchNav,
@@ -61,27 +60,26 @@ function _navigate(routeName: string, param: object = {}): void {
 
 function _pop(): void {
     const {index, routes} = navicontrol().getRootState();
-    _popByParam(routes[index - 1 < 0 ? 0 : index - 1].key)
-}
-
-function _popByKey(key: string): void {
-    const index = _indexFromKey(key);
-    const fromKey = _keyFromIndex(0, index);
-    _popByParam(fromKey);
+    const {key, name, params} =routes[index - 1 < 0 ? 0 : index - 1]
+    navicontrol().goBack();
+    if (_listener && _listener.onPop) {
+        _listener.onPop(key);
+    }
 }
 
 function _popByRoute(routeName: string): void {
-    const key = _keyFromRouteName(routeName);
-    _popByKey(key);
+    const route = _routeFromRouteName(routeName);
+    route && _popByParam(route);
 }
 
 function _popByDelta(delta: number): void {
-    const fromKey = _keyFromIndex(delta);
-    _popByParam(fromKey);
+    const route = _routeFromIndex(delta);
+    route && _popByParam(route);
 }
 
-function _popByParam(key: string) {
-    navicontrol().navigate({key: key});
+function _popByParam(route:{key:string, name:string, params:any }) {
+    const {key, name, params} =route
+    navicontrol().navigate({key, name ,params});
     if (_listener && _listener.onPop) {
         _listener.onPop(key);
     }
@@ -99,38 +97,24 @@ function _refresh(_isApiLoading: boolean, _apiLoadingStyle?: object) {
 global.push = _push;
 global.refresh = _refresh;
 
-function _keyFromIndex(delta: number, startIndex?: number) {
+function _routeFromIndex(delta: number, startIndex?: number) {
     const {index, routes} = navicontrol().getRootState();
     startIndex = startIndex === undefined ? index : startIndex;
     if (startIndex + delta < 0) {
-        return;
+        return undefined;
     }
-    return routes[startIndex + delta].key;
+    return routes[startIndex + delta];
 }
 
-function _keyFromRouteName(name: string) {
+function _routeFromRouteName(name: string) {
     const {routes} = navicontrol().getRootState();
     const result = routes.filter(item => item.name === name);
     if (result.length > 0) {
-        return result[result.length - 1].key;
+        return result[result.length - 1];
     } else if (routes.length > 1) {
-        return routes[routes.length - 2].key;
+        return routes[routes.length - 2];
     } else if (routes.length > 0) {
-        return routes[0].key;
+        return routes[0];
     }
-}
-
-function _indexFromKey(key: string) {
-    const {routes} = navicontrol().getRootState();
-    if (key) {
-        let result = -1;
-        routes.forEach((item, index) => {
-            if (item.key === key) {
-                result = index;
-            }
-        });
-        return result;
-    } else {
-        return routes.length;
-    }
+    return undefined;
 }
